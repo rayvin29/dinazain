@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Name Card</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 30px;
+        }
+
+        .header-img {
+            height: 120px;
+            background: linear-gradient(135deg, #2563eb, #9333ea);
+            width: 100%;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid var(--card-bg);
+            margin-top: -60px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+
+        .info {
+            padding: 15px 20px;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .job-title {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        /* Action Buttons Container */
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            background: var(--bg-color);
+            color: var(--text-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            background: #e5e7eb;
+        }
+
+        /* The Main Save Button */
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .save-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Colored Background Header -->
+        <div class="header-img"></div>
+        
+        <!-- Profile Picture: Replace src with your image URL -->
+        <img src="https://img.freepik.com/foto-premium/foto-seorang-wanita-hijab-cantik_889227-35472.jpg" alt="Profile Picture" class="profile-pic" id="profilePic">
+        
+        <div class="info">
+            <div class="name" id="display-name">Hanifah Dina Zain</div>
+            <div class="job-title" id="display-job">Penata Kanselerai @ Kementerian Luar Negero </div>
+            
+            <!-- Social/Contact Links -->
+            <div class="actions">
+                <a href="tel:+6285156875486" class="action-btn" title="Call"><i class="fas fa-phone"></i></a>
+                <a href="mailto:dina@kemlu.go.id" class="action-btn" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://linkedin.com" target="_blank" class="action-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://yourwebsite.com" target="_blank" class="action-btn" title="Website"><i class="fas fa-globe"></i></a>
+            </div>
+
+            <!-- The Magic Button -->
+            <button class="save-btn" onclick="downloadVCard()">
+                <i class="fas fa-user-plus"></i> Save to Contacts
+            </button>
+            
+            <div class="footer">
+                Tap button to save to phone
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. EDIT YOUR DETAILS HERE
+        const contactInfo = {
+            firstName: "Hanifah Dina",
+            lastName: "Zain",
+            organization: "Kementerian Luar Negeri",
+            title: "Penata Kanselerai",
+            phone: "+62851-5687-5486",
+            email: "dina@kemlu.go.id"
+        };
+
+        // 2. Logic to generate and download the VCF file
+        function downloadVCard() {
+            // vCard standard format
+            const vCardData = [
+                'BEGIN:VCARD',
+                'VERSION:3.0',
+                `N:${contactInfo.lastName};${contactInfo.firstName};;;`,
+                `FN:${contactInfo.firstName} ${contactInfo.lastName}`,
+                `ORG:${contactInfo.organization}`,
+                `TITLE:${contactInfo.title}`,
+                `TEL;TYPE=CELL:${contactInfo.phone}`,
+                `EMAIL;TYPE=WORK:${contactInfo.email}`,
+                `URL:${contactInfo.website}`,
+                `ADR;TYPE=WORK:;;${contactInfo.address}`,
+                'END:VCARD'
+            ].join('\n');
+
+            // Create a blob for the file
+            const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create invisible link to trigger download
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${contactInfo.firstName}_${contactInfo.lastName}.vcf`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Optional: Update HTML text from the JS object automatically
+        // so you only have to edit the top section
+        document.getElementById('display-name').innerText = `${contactInfo.firstName} ${contactInfo.lastName}`;
+        document.getElementById('display-job').innerText = `${contactInfo.title} @ ${contactInfo.organization}`;
+    </script>
+
+</body>
+</html>
